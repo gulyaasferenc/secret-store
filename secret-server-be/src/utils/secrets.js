@@ -1,9 +1,9 @@
 const crypto = require('crypto')
 
-const algorithm = 'aes-192-cbc'
+const algorithm = 'aes-256-ctr'
 const key = process.env.CRYPTO_SECRET
 
-const encrypt = ({ secretText }) => {
+const encrypt = (secretText) => {
     const iv = crypto.randomBytes(16)
 
     const cipher = crypto.createCipheriv(algorithm, key, iv)
@@ -11,7 +11,7 @@ const encrypt = ({ secretText }) => {
     return Buffer.concat([iv, cipher.update(secretText), cipher.final()]).toString('base64')
 }
 
-const decrypt = ({ hash }) => {
+const decrypt = (hash) => {
     let encrypted = Buffer.from(hash, 'base64')
     const iv = encrypted.slice(0, 16)
 

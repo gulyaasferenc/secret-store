@@ -1,17 +1,21 @@
-module.exports = ({ mongo }) => {
+const moment = require('moment')
+
+module.exports = ({ mongo, logIt, secrets }) => {
 
     const Hash = mongo.models.Hash
 
     const saveSecret = async (req, res) => {
         try {
             const hashToSave = new Hash({
-                ...req.body,
-                remainingViews: req.body.expireAfterViews
+                hash: secrets.encrypt(req.body.secret),
+                remainingViews: req.body.expireAfterViews && req.body.expireAfterViews !== 0 ? req.body.expireAfterViews : null,
+                expireAfterViews: req.body.expireAfterViews || null,
+                expiresAt: req.body.expireAfter ? moment().add(req.body.expireAfter, 'm') : null
             })
             const result = await hashToSave.save()
             res.status(201).json(result)
         } catch (error) {
-            console.log('error: ' + error.message)
+            logIt.error('error: ' + error.message)
             res.status(500).json({ error: error.message })
         }
 
@@ -19,24 +23,35 @@ module.exports = ({ mongo }) => {
 
     const getSecret = async (req, res) => {
         try {
-            const result = await Hash.findOne(
-                { hash: req.params.hash }
-
+            let result = await Hash.findOne(
+                { hash: req.params[0] }
             )
             if (result) {
-                result.remainingViews = result.remainingViews - 1
+                if (result.expireAfterViews !== 0) {
+                    result.remainingViews = result.remainingViews - 1
 
-                const updatedResult = await result.save()
+                    result = await result.save()
 
-                if (result.remainingViews <= 0) {
-                    await result.deleteOne()
+                    if (result.remainingViews <= 0) {
+                        await result.deleteOne()
+                    }
                 }
-                return res.status(200).json(updatedResult)
+
+                const response = {
+                    hash: result.hash,
+                    secretText: secrets.decrypt(result.hash),
+                    createdAt: result.createdAt,
+                    expiresAt: result.expiresAt,
+                    remainingViews: result.remainingViews
+
+                }
+
+                return res.status(200).json(response)
             }
 
             res.status(404).json({ message: 'Secret not found' })
         } catch (error) {
-            console.log('error: ' + error.message)
+            logIt.error('error: ' + error.message)
             res.status(500).json({ error: error.message })
         }
     }

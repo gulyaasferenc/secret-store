@@ -1,13 +1,18 @@
 const router = require('express').Router()
 const secretController = require('../controller')
+const middleware = require('../middleware')
 
-module.exports = ({ mongo }) => {
+module.exports = ({ mongo, logIt, secrets }) => {
 
-    const { saveSecret, getSecret } = secretController({ mongo }).handleSecrets
+    const {
+        validateSaveSecretInput
+    } = middleware({ logIt }).validator
 
-    router.get('/:hash', getSecret)
+    const { saveSecret, getSecret } = secretController({ mongo, logIt, secrets }).handleSecrets
 
-    router.post('/', saveSecret)
+    router.get(/^\/{1}(.*)/, getSecret)
+
+    router.post('/', validateSaveSecretInput, saveSecret)
 
     return router
 }

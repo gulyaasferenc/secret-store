@@ -3,11 +3,11 @@ const app = express()
 
 const routes = require('./routes')
 
-module.exports = ({ mongo }) => {
+module.exports = ({ mongo, logIt, secrets }) => {
     app.use(express.json())
-    app.use('/api', routes({ mongo }))
+    app.use('/api', routes({ mongo, logIt, secrets }))
 
     app.listen(process.env.PORT, () => {
-        console.log(`[${new Date().toLocaleTimeString()}]: Server is listening on ${process.env.PORT}`)
+        logIt.success(`Server is listening on PORT: ${process.env.PORT}`)
     })
 }

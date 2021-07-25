@@ -1,7 +1,7 @@
 const handleSecrets = require('./handleSecrets')
 
-module.exports = ({ mongo }) => {
+module.exports = ({ mongo, logIt, secrets }) => {
     return {
-        handleSecrets: handleSecrets({ mongo })
+        handleSecrets: handleSecrets({ mongo, logIt, secrets })
     }
 }

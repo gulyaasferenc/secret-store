@@ -1,12 +1,11 @@
-GET http://localhost:3000/api/secret/hassssh
-
+GET http://localhost:3000/api/secret/1
 ###
 
 POST http://localhost:3000/api/secret
 content-type: application/json
 
 {
-    "hash": "hassssh",
-    "expireAfterViews": 2,
-    "expiresAt": "2021-07-24T16:38:58.430Z"
+    "secret": "nemtommicsoda de az már tuti valami hejjhejjhejj",
+    "expireAfterViews": 1,
+    "expireAfter": 0
 }
