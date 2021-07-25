@@ -1,7 +1,7 @@
 # for manual http tests
 # VS code REST Client is required
 
-GET http://localhost:3000/api/secret/YmZhNC8zaFp2T0ZxNVNGbGgwWHd3ZkxUTm5ucW1GWTROQ2Z3NktuSThzaFZCV3hkRGpZUGZFUnNqd3NBQlQ3OW1ySWM
+GET http://localhost:3000/api/secret/VWMwd2dwOWIwRDFiUDdQNGY3YUZQQTNvZTdIRXA3cGlndmUzeVhwd1p6Tk9vT3dzSXBPdk03S2N3SXFHbjIvVnBHdFE
 ###
 
 POST http://localhost:3000/api/secret
