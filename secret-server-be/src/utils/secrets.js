@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const base64url = require('base64url')
 
 const algorithm = 'aes-256-ctr'
 const key = process.env.CRYPTO_SECRET
@@ -8,11 +9,11 @@ const encrypt = (secretText) => {
 
     const cipher = crypto.createCipheriv(algorithm, key, iv)
 
-    return Buffer.concat([iv, cipher.update(secretText), cipher.final()]).toString('base64')
+    return base64url.encode(Buffer.concat([iv, cipher.update(secretText), cipher.final()]).toString('base64'))
 }
 
 const decrypt = (hash) => {
-    let encrypted = Buffer.from(hash, 'base64')
+    let encrypted = Buffer.from(base64url.decode(hash), 'base64')
     const iv = encrypted.slice(0, 16)
 
     encrypted = encrypted.slice(16)

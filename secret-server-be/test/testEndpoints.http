@@ -1,0 +1,14 @@
+# for manual http tests
+# VS code REST Client is required
+
+GET http://localhost:3000/api/secret/YmZhNC8zaFp2T0ZxNVNGbGgwWHd3ZkxUTm5ucW1GWTROQ2Z3NktuSThzaFZCV3hkRGpZUGZFUnNqd3NBQlQ3OW1ySWM
+###
+
+POST http://localhost:3000/api/secret
+content-type: application/json
+
+{
+    "secret": "Ferenc for full stack developer! :)",
+    "expireAfterViews": 1,
+    "expireAfter": 1
+}

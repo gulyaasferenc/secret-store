@@ -24,7 +24,7 @@ module.exports = ({ mongo, logIt, secrets }) => {
     const getSecret = async (req, res) => {
         try {
             let result = await Hash.findOne(
-                { hash: req.params[0] }
+                { hash: req.params.hash }
             )
             if (result) {
                 if (result.expireAfterViews !== 0) {

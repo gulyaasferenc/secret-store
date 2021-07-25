@@ -10,7 +10,7 @@ module.exports = ({ mongo, logIt, secrets }) => {
 
     const { saveSecret, getSecret } = secretController({ mongo, logIt, secrets }).handleSecrets
 
-    router.get(/^\/{1}(.*)/, getSecret)
+    router.get('/:hash', getSecret)
 
     router.post('/', validateSaveSecretInput, saveSecret)
 
