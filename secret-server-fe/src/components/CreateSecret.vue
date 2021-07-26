@@ -34,7 +34,8 @@
       </button>
     </form>
     <div class="createresult" v-if="creationResult">
-      <div class="secrettext">Your secret is created: {{ creationResult }}</div>
+      Your secret is created:
+      <div class="secrettext">{{ creationResult }}</div>
       <button @click="clearResult()" type="button" class="normalbutton">
         Clear
       </button>
@@ -115,5 +116,8 @@ export default {
 .secrettext {
   margin-bottom: 2rem;
   line-break: anywhere;
+  padding: 10px;
+  max-height: 12vh;
+  overflow: auto;
 }
 </style>

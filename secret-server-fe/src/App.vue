@@ -136,7 +136,7 @@ textarea {
   box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.75);
   border-radius: 7px;
   padding: 10px;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 @media screen and (max-width: 820px) {

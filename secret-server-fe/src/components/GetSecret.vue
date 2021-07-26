@@ -8,7 +8,10 @@
         Get Secret
       </button>
     </form>
-    <div v-if="result">Your text is: <br />{{ result }}</div>
+    <div v-if="result">
+      Your text is:
+      <div class="result">{{ result }}</div>
+    </div>
     <ErrorNotification
       @closeMe="closeErrorNotification()"
       v-if="errorMsg"
@@ -60,4 +63,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.result {
+  padding: 10px;
+  max-height: 20vh;
+  overflow: auto;
+}
 </style>
