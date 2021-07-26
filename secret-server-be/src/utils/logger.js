@@ -7,15 +7,13 @@ const logIt = {
             `[${moment().toLocaleString()}]:`,
             message,
             '👍',
-            '\x1b[0m',
-            '\n'
+            '\x1b[0m'
         )
     },
     log: (message) => {
         console.log(
             `[${moment().toLocaleString()}]:`,
-            message,
-            '\n'
+            message
         )
     },
     error: (message) => {
@@ -24,8 +22,7 @@ const logIt = {
             `[${moment().toLocaleString()}]:`,
             message,
             '❌ ',
-            '\x1b[0m',
-            '\n'
+            '\x1b[0m'
         )
     }
 }

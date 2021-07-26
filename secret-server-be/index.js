@@ -13,7 +13,7 @@ const startServer = async () => {
         startApp({ mongo, logIt, secrets })
         startCron({ mongo, logIt })
     } catch (error) {
-        if ((error.name === 'MongoNetworkError' || error.name === 'MongooseServerSelectionError') && serverRetryStarter > 0) {
+        if (serverRetryStarter > 0) {
             logIt.error(`MongoNetworkError, retry attempt left: ${serverRetryStarter}`)
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -23,10 +23,7 @@ const startServer = async () => {
             serverRetryStarter--
             startServer()
         } else {
-            const message = serverRetryStarter === 0
-                ? 'Server could not start after 3 attempt... DB Connection could not be established'
-                : 'Server could not start...' + error.message
-            logIt.error(message)
+            logIt.error('Server could not start after 3 attempt...' + error.message)
             throw new Error(message)
         }
     }
