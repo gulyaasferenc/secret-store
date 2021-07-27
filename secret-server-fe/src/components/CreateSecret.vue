@@ -39,24 +39,25 @@
         Clear
       </button>
     </div>
-    <ErrorNotification
+    <Notification
       :duration="4"
       @closeMe="closeErrorNotification()"
       v-if="errorMsg"
       :msg="errorMsg"
+      type="error"
     />
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
-import ErrorNotification from "./ErrorNotification.vue";
+import Notification from "./Notification.vue";
 import useCreateSecret from "../composables/useCreateSecret";
 
 export default {
   name: "CreateSecret",
   components: {
-    ErrorNotification,
+    Notification,
   },
   setup() {
     const secretText = ref("");

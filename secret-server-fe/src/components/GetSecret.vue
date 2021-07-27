@@ -10,42 +10,65 @@
     </form>
     <div v-if="result">
       <b>Your text is:</b>
-      <div class="result">{{ result }}</div>
+      <div class="result">{{ result.secretText }}</div>
     </div>
-    <ErrorNotification
-      @closeMe="closeErrorNotification()"
+    <Notification
+      @closeMe="closeNotifications()"
       v-if="errorMsg"
       :msg="errorMsg"
       :duration="4"
+      type="error"
     />
+    <Notification
+      @closeMe="closeNotifications()"
+      v-if="showInfoNotification"
+      type="info"
+    >
+      <div v-if="result.expiresAt">
+        <b>This secret will expire on: </b>
+        {{ moment(result.expiresAt).fromNow() }}
+      </div>
+      <div v-else>This secret has no expiration date</div>
+    </Notification>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import ErrorNotification from "./ErrorNotification.vue";
+import { ref, watch } from "vue";
+import Notification from "./Notification.vue";
 import useGetSecret from "../composables/useGetSecret";
+import moment from "moment";
 
 export default {
   name: "GetSecret",
   components: {
-    ErrorNotification,
+    Notification,
   },
   setup() {
     const hash = ref(null);
+    const showInfoNotification = ref(false);
 
     const { getHash, result, errorMsg } = useGetSecret(hash);
 
-    const closeErrorNotification = () => {
+    const closeNotifications = () => {
       errorMsg.value = null;
     };
+
+    watch(result, (newValue) => {
+      if (newValue) {
+        console.log(result)
+        showInfoNotification.value = true;
+      }
+    });
 
     return {
       hash,
       getHash,
       result,
       errorMsg,
-      closeErrorNotification,
+      closeNotifications,
+      moment,
+      showInfoNotification,
     };
   },
 };
@@ -53,7 +76,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import '../app.scss';
+@import "../app.scss";
 
 .result {
   padding: 50px;

@@ -34,7 +34,7 @@ export default {
     GetSecret,
   },
   setup() {
-    const view = ref("get");
+    const view = ref("create");
 
     const setViewToGet = () => {
       console.log("pushed");

@@ -11,12 +11,16 @@ services:
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     network_mode: host
-  # node-server:
+  node-server:
+    ports:
+      - 3000:3000
+    build: ./secret-server-be
+    depends_on:
+      - mongodb_container
+    network_mode: host
+  # frontend:
   #   ports:
-  #     - 3000:3000
-  #   build: ./secret-server-be
-  #   depends_on:
-  #     - mongodb_container
-  #   network_mode: host
+  #     - 8080:80
+  #   build: ./secret-server-fe
 volumes:
   mongodb_data_container:
