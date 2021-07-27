@@ -95,10 +95,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-$dark: #293B5F;
-$otherdark: #47597E;
-$light: #DBE6FD;
-$other: #B2AB8C;
+@import '../app.scss';
 
 .numberinput {
   width: 12rem;

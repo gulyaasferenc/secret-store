@@ -55,10 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
-$dark: #293B5F;
-$otherdark: #47597E;
-$light: #DBE6FD;
-$other: #B2AB8C;
+@import './app.scss';
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
