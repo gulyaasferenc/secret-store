@@ -7,10 +7,10 @@ export default {
   name: "ErrorNotification",
   props: {
     msg: String,
-    duration: Number
+    duration: Number,
   },
   setup(props, { emit }) {
-      console.log(props)
+    console.log(props);
     setTimeout(() => {
       emit("closeMe");
     }, props.duration * 1000);
@@ -28,9 +28,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 20px;
-  right: 20px;
-  width: 220px;
+  bottom: 200px;
+  left: 50%;
+  margin-left: -160px;
+  width: 320px;
   height: 40px;
   border-radius: 10px;
   background: rgba(255, 0, 0, 0.9);
@@ -42,11 +43,10 @@ export default {
 
 @keyframes slidein {
   from {
-    transform: translateX(100%);
+    bottom: -100px;
   }
-
   to {
-    transform: translateX(0%);
+    bottom: 200px;
   }
 }
 </style>

@@ -3,7 +3,6 @@
     <form class="form">
       <div>
         <textarea
-          cols="80"
           rows="10"
           placeholder="Your secret content"
           v-model="secretText"
@@ -34,7 +33,7 @@
       </button>
     </form>
     <div class="createresult" v-if="creationResult">
-      Your secret is created:
+      <b>Your secret is created:</b>
       <div class="secrettext">{{ creationResult }}</div>
       <button @click="clearResult()" type="button" class="normalbutton">
         Clear
@@ -50,9 +49,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import { ref } from "vue";
 import ErrorNotification from "./ErrorNotification.vue";
+import useCreateSecret from "../composables/useCreateSecret";
 
 export default {
   name: "CreateSecret",
@@ -63,24 +62,12 @@ export default {
     const secretText = ref("");
     const expireAfterViews = ref(null);
     const expireAfter = ref(null);
-    const creationResult = ref(null);
-    const errorMsg = ref(null);
-    const createSecret = async () => {
-      try {
-        const { data: result } = await axios.post(
-          `${process.env.VUE_APP_BASE_API_URL}/api/secret`,
-          {
-            secret: secretText.value,
-            expireAfterViews: Number(expireAfterViews.value),
-            expireAfter: Number(expireAfter.value),
-          }
-        );
-        creationResult.value = result.hash;
-      } catch (error) {
-        console.log(error);
-        errorMsg.value = error.response.data.message;
-      }
-    };
+
+    const { createSecret, creationResult, errorMsg } = useCreateSecret({
+      secretText,
+      expireAfterViews,
+      expireAfter,
+    });
 
     const clearResult = () => {
       creationResult.value = null;
@@ -108,6 +95,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+$dark: #293B5F;
+$otherdark: #47597E;
+$light: #DBE6FD;
+$other: #B2AB8C;
+
 .numberinput {
   width: 12rem;
   margin: 0 7px 2rem 7px;
@@ -117,7 +109,21 @@ export default {
   margin-bottom: 2rem;
   line-break: anywhere;
   padding: 10px;
-  max-height: 12vh;
+  max-height: 15vh;
   overflow: auto;
+  background: $dark;
+  width: 80%;
+  margin: auto;
+  margin-bottom: 5px;
+  border-radius: 7px;
+  color: $light;
+}
+
+@media screen and (max-width: 820px) {
+  .secrettext {
+    max-height: 12vh;
+    width: 95%;
+    padding: 0px;
+  }
 }
 </style>

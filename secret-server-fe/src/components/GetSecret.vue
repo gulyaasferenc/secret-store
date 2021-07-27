@@ -9,7 +9,7 @@
       </button>
     </form>
     <div v-if="result">
-      Your text is:
+      <b>Your text is:</b>
       <div class="result">{{ result }}</div>
     </div>
     <ErrorNotification
@@ -23,8 +23,9 @@
 
 <script>
 import { ref } from "vue";
-import axios from "axios";
 import ErrorNotification from "./ErrorNotification.vue";
+import useGetSecret from "../composables/useGetSecret";
+
 export default {
   name: "GetSecret",
   components: {
@@ -32,19 +33,8 @@ export default {
   },
   setup() {
     const hash = ref(null);
-    const result = ref(null);
-    const errorMsg = ref(null);
 
-    const getHash = async () => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.VUE_APP_BASE_API_URL}/api/secret/${hash.value}`
-        );
-        result.value = data.secretText;
-      } catch (error) {
-        errorMsg.value = error.response.data.message;
-      }
-    };
+    const { getHash, result, errorMsg } = useGetSecret(hash);
 
     const closeErrorNotification = () => {
       errorMsg.value = null;
@@ -63,9 +53,27 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+$dark: #293B5F;
+$otherdark: #47597E;
+$light: #DBE6FD;
+$other: #B2AB8C;
+
 .result {
-  padding: 10px;
-  max-height: 20vh;
+  padding: 50px;
+  max-height: 30vh;
+  width: 80%;
+  margin: auto;
   overflow: auto;
+  background: $dark;
+  color: $light;
+  border-radius: 7px;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 820px) {
+  .result {
+    padding: 0px;
+    width: 95%;
+  }
 }
 </style>

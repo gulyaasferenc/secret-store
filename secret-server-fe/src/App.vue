@@ -2,16 +2,23 @@
   <div>
     <div class="header">Secret Handler</div>
     <div class="menubuttons">
-      <button class="menubutton" @click="setViewToCreate()">
+      <button
+        class="menubutton"
+        :class="[view === 'create' ? 'selected-menubutton' : '']"
+        @click="setViewToCreate()"
+      >
         Create New Secret
       </button>
-      <button class="menubutton" @click="setViewToGet()">
+      <button
+        class="menubutton"
+        :class="[view === 'get' ? 'selected-menubutton' : '']"
+        @click="setViewToGet()"
+      >
         Get Secret By Hash
       </button>
     </div>
-
-    <CreateSecret v-if="view === 'create'" />
-    <GetSecret v-if="view === 'get'" />
+      <CreateSecret v-if="view === 'create'" />
+      <GetSecret v-if="view === 'get'" />
   </div>
 </template>
 
@@ -48,25 +55,42 @@ export default {
 </script>
 
 <style lang="scss">
+$dark: #293B5F;
+$otherdark: #47597E;
+$light: #DBE6FD;
+$other: #B2AB8C;
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-top: 80px;
   transition: 0.2s;
+  background: $other;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+  margin: 0px;
+  padding: 0;
 }
 
 .header {
   position: fixed;
   left: 0;
   top: 0;
-  background: rgb(40, 40, 41);
-  padding: 1rem;
+  background: $dark;
+  height: 50px;
   width: 100vw;
   text-align: left;
-  color: white;
+  color: $light;
   font-size: large;
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+}
+
+body {
+  margin: 0px;
 }
 
 .menubuttons {
@@ -79,23 +103,30 @@ export default {
 
 .menubutton {
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $otherdark;
+  margin-top: 75px;
   padding: 5px 20px 5px 20px;
   cursor: pointer;
-  background: white;
+  background: transparent;
   transition: 0.2s;
   font-size: 16px;
 }
 
+.selected-menubutton {
+  border-bottom: 1px solid transparent;
+  box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.75);
+  transform: scale(1.2);
+}
+
 .menubutton:hover {
-  border: none;
+  border-bottom: 1px solid transparent;
   box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.75);
   transform: scale(1.2);
 }
 
 input {
   padding: 10px 20px 10px 20px;
-  width: 40rem;
+  width: 70%;
   margin-bottom: 25px;
   border-radius: 7px;
   border: none;
@@ -107,7 +138,7 @@ input {
   border-radius: 10px;
   padding: 5px 20px 5px 20px;
   cursor: pointer;
-  background: white;
+  background: $light;
   transition: 0.2s;
 }
 
@@ -125,10 +156,12 @@ input {
   justify-content: center;
   box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.75);
   border-radius: 7px;
+  background: $otherdark;
+  color: $light;
 }
 
 .form {
-  margin: 6rem 0 2rem 0;
+  margin: 3rem 0 1rem 0;
 }
 
 textarea {
@@ -137,6 +170,7 @@ textarea {
   border-radius: 7px;
   padding: 10px;
   margin-bottom: 1rem;
+  width: 80%;
 }
 
 @media screen and (max-width: 820px) {
@@ -149,13 +183,9 @@ textarea {
   }
 
   .menubutton {
-    border: 1px solid black;
-    border-radius: 10px;
     padding: 5px 7px 5px 7px;
     cursor: pointer;
-    background: white;
-    transition: 0.2s;
-    font-size: 16px;
   }
 }
+
 </style>
