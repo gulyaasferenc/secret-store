@@ -14,7 +14,7 @@ const startServer = async () => {
         startCron({ mongo, logIt })
     } catch (error) {
         if (serverRetryStarter > 0) {
-            logIt.error(`MongoNetworkError, retry attempt left: ${serverRetryStarter}`)
+            logIt.error(`${error.message}, retry attempt left: ${serverRetryStarter}`)
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve(true)
@@ -24,7 +24,7 @@ const startServer = async () => {
             startServer()
         } else {
             logIt.error('Server could not start after 3 attempt...' + error.message)
-            throw new Error(message)
+            process.exit()
         }
     }
 
