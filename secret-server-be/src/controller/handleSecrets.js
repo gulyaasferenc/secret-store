@@ -12,6 +12,7 @@ module.exports = ({ mongo, logIt, secrets }) => {
                 expireAfterViews: req.body.expireAfterViews || null,
                 expiresAt: req.body.expireAfter ? moment().add(req.body.expireAfter, 'm') : null
             })
+
             const result = await hashToSave.save()
             res.status(201).json(result)
         } catch (error) {

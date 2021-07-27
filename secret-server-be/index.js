@@ -1,6 +1,5 @@
 const startApp = require('./src/app')
 const startDb = require('./src/db')
-const startCron = require('./src/cron/cron')
 require('dotenv').config()
 
 const { logIt, secrets } = require('./src/utils')
@@ -11,7 +10,6 @@ const startServer = async () => {
     try {
         const { mongo } = await startDb({ logIt })
         startApp({ mongo, logIt, secrets })
-        startCron({ mongo, logIt })
     } catch (error) {
         if (serverRetryStarter > 0) {
             logIt.error(`${error.message}, retry attempt left: ${serverRetryStarter}`)

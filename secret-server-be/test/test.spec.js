@@ -73,7 +73,7 @@ describe('SECRET SERVER API TEST', () => {
                 "expireAfter": 1
             })
 
-          
+
             const res = await request(app).get(`/secret/${postResult.body.hash}`)
             expect(res.body).haveOwnProperty('hash').to.be.a('string')
             expect(res.body).contains({ secretText: "super secret test" })
@@ -91,4 +91,47 @@ describe('SECRET SERVER API TEST', () => {
                 .contains({ status: 404 })
         })
     })
+    describe('test expireAfterViews', () => {
+        it('shoud get the entry properly and then 404', async () => {
+            const postResult = await request(app).post('/secret').set('Accept', 'application/json').send({
+                "secret": "super secret test",
+                "expireAfterViews": 1,
+                "expireAfter": 1
+            })
+
+            const res = await request(app).get(`/secret/${postResult.body.hash}`)
+            expect(res.body).haveOwnProperty('hash').to.be.a('string')
+            expect(res.body).contains({ secretText: "super secret test" })
+
+            const resAfterExpired = await request(app).get(`/secret/${postResult.body.hash}`)
+            expect(resAfterExpired.error)
+                .contains({ text: '{"message":"Secret not found"}' })
+                .contains({ status: 404 })
+        })
+    })
+    describe('test TTL', () => {
+        it('shoud get the entry properly and then 404', async () => {
+            const postResult = await request(app).post('/secret').set('Accept', 'application/json').send({
+                "secret": "super secret test",
+                "expireAfterViews": 0,
+                "expireAfter": 1
+            })
+
+            const res = await request(app).get(`/secret/${postResult.body.hash}`)
+            expect(res.body).haveOwnProperty('hash').to.be.a('string')
+            expect(res.body).contains({ secretText: "super secret test" })
+
+            await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve()
+                }, 80000)
+            })
+
+            const resAfterExpired = await request(app).get(`/secret/${postResult.body.hash}`)
+            expect(resAfterExpired.error)
+                .contains({ text: '{"message":"Secret not found"}' })
+                .contains({ status: 404 })
+        }).timeout(100000)
+    })
+
 })

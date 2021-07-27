@@ -10,6 +10,8 @@ module.exports = ({ mongoose }) => {
         }
     )
 
+    hash.index({ 'expiresAt': 1 }, { expireAfterSeconds: 1 })
+
     return hash
 
 }

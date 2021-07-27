@@ -1,7 +1,7 @@
 # for manual http tests
 # VS code REST Client is required
 
-GET http://localhost:3000/api/secret/YlQvazVPdU1yOUEwK0tXZ2VleTdhblBBcVVMNUlDMzVJWUJUc1E9PQ
+GET http://localhost:3000/api/secret/QkFYaW1lTkROZDQyT2c5K2ZTcG5kUStGeTIwM3psZkVoTERVUTM0ZQ
 ###
 
 POST http://localhost:3000/api/secret
@@ -10,5 +10,5 @@ content-type: application/json
 {
     "secret": "Secret message",
     "expireAfterViews": 3,
-    "expireAfter": 1
+    "expireAfter": 2
 }
