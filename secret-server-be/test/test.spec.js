@@ -21,7 +21,7 @@ describe('SECRET SERVER API TEST', () => {
         app.use(express.json())
         app.use('/', router)
     })
-    beforeEach(async () => {
+    after(async () => {
         if ([...await mongo.db.listCollections().toArray()].filter(coll => coll.name === 'hashes').length > 0)
             await mongo.db.dropCollection('hashes')
     })
@@ -125,7 +125,7 @@ describe('SECRET SERVER API TEST', () => {
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve()
-                }, 130000)
+                }, 120000)
             })
 
             const resAfterExpired = await request(app).get(`/secret/${postResultForTTl.body.hash}`)
@@ -133,7 +133,7 @@ describe('SECRET SERVER API TEST', () => {
             expect(resAfterExpired.error)
                 .contains({ text: '{"message":"Secret not found"}' })
                 .contains({ status: 404 })
-        }).timeout(130000)
+        }).timeout(150000)
     })
 
 })
