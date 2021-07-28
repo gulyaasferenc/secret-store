@@ -9,9 +9,10 @@ module.exports = ({ mongo, logIt, secrets }) => {
             const hashToSave = new Hash({
                 hash: secrets.encrypt(req.body.secret),
                 remainingViews: req.body.expireAfterViews && req.body.expireAfterViews !== 0 ? req.body.expireAfterViews : null,
-                expireAfterViews: req.body.expireAfterViews || null,
+                expireAfterViews: req.body.expireAfterViews || 0,
                 expiresAt: req.body.expireAfter ? moment().add(req.body.expireAfter, 'm') : null
             })
+
             const result = await hashToSave.save()
             res.status(201).json(result)
         } catch (error) {
