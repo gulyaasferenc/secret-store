@@ -47,7 +47,7 @@ describe('SECRET SERVER API TEST', () => {
             })
 
             expect(res.body).to.be.an('object')
-                .contains({ expireAfterViews: null })
+                .contains({ expireAfterViews: 0 })
                 .contains({ expiresAt: null })
                 .contains({ remainingViews: null })
         })
