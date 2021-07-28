@@ -9,6 +9,7 @@ const { logIt, secrets } = require('../src/utils')
 
 let app
 let mongo
+let postResultForTTl
 describe('SECRET SERVER API TEST', () => {
     before(async () => {
         const { mongo: mongoConnect } = await startDb({ logIt })
@@ -111,23 +112,23 @@ describe('SECRET SERVER API TEST', () => {
     })
     describe('test TTL', () => {
         it('shoud get the entry properly and then 404', async () => {
-            const postResult = await request(app).post('/secret').set('Accept', 'application/json').send({
+            postResultForTTl = await request(app).post('/secret').set('Accept', 'application/json').send({
                 "secret": "super secret test",
                 "expireAfterViews": 0,
                 "expireAfter": 1
             })
-
-            const res = await request(app).get(`/secret/${postResult.body.hash}`)
+           
+            const res = await request(app).get(`/secret/${postResultForTTl.body.hash}`)
             expect(res.body).haveOwnProperty('hash').to.be.a('string')
             expect(res.body).contains({ secretText: "super secret test" })
 
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve()
-                }, 120000)
+                }, 130000)
             })
 
-            const resAfterExpired = await request(app).get(`/secret/${postResult.body.hash}`)
+            const resAfterExpired = await request(app).get(`/secret/${postResultForTTl.body.hash}`)
             console.log(resAfterExpired)
             expect(resAfterExpired.error)
                 .contains({ text: '{"message":"Secret not found"}' })

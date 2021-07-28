@@ -1,8 +1,9 @@
 const { exec, spawn } = require('child_process');
 
 try {
+    process.chdir('./secret-server-be')
     console.log('Start with initialize db for test with docker-compose...');
-    exec('docker-compose up -d', () => {
+    exec('docker-compose up', () => {
         new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve()
@@ -15,6 +16,10 @@ try {
                 console.log(chunk.toString())
             })
 
+            testProcess.stderr.on('error', error => {
+                console.log(error.toString())
+            })
+
             testProcess.on('close', () => {
                 console.log('Tests ran, kill the docker container...')
                 exec('docker-compose down')
@@ -24,5 +29,5 @@ try {
     })
 }
 catch (err) {
-    console.log('chdir: ' + err);
+    console.log(err);
 }
