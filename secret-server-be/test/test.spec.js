@@ -124,14 +124,15 @@ describe('SECRET SERVER API TEST', () => {
             await new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve()
-                }, 80000)
+                }, 120000)
             })
 
             const resAfterExpired = await request(app).get(`/secret/${postResult.body.hash}`)
+            console.log(resAfterExpired)
             expect(resAfterExpired.error)
                 .contains({ text: '{"message":"Secret not found"}' })
                 .contains({ status: 404 })
-        }).timeout(100000)
+        }).timeout(130000)
     })
 
 })
