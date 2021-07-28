@@ -3,7 +3,6 @@
     <form class="form">
       <div>
         <textarea
-          rows="10"
           placeholder="Your secret content"
           v-model="secretText"
         />
@@ -35,9 +34,6 @@
     <div class="createresult" v-if="creationResult">
       <b>Your secret is created:</b>
       <div class="secrettext">{{ creationResult }}</div>
-      <button @click="clearResult()" type="button" class="normalbutton">
-        Clear
-      </button>
     </div>
     <Notification
       :duration="4"
@@ -70,19 +66,12 @@ export default {
       expireAfter,
     });
 
-    const clearResult = () => {
-      creationResult.value = null;
-      expireAfterViews.value = null;
-      expireAfter.value = null;
-    };
-
     const closeErrorNotification = () => {
       errorMsg.value = null;
     };
 
     return {
       createSecret,
-      clearResult,
       secretText,
       expireAfterViews,
       expireAfter,
@@ -94,7 +83,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import '../app.scss';
 
@@ -107,11 +95,12 @@ export default {
   margin-bottom: 2rem;
   line-break: anywhere;
   padding: 10px;
-  max-height: 15vh;
+  max-height: 25vh;
   overflow: auto;
   background: $dark;
   width: 80%;
   margin: auto;
+  margin-top: 5px;
   margin-bottom: 5px;
   border-radius: 7px;
   color: $light;
@@ -119,9 +108,9 @@ export default {
 
 @media screen and (max-width: 820px) {
   .secrettext {
-    max-height: 12vh;
+    max-height: 20vh;
     width: 95%;
-    padding: 0px;
+    padding: 2px;
   }
 }
 </style>

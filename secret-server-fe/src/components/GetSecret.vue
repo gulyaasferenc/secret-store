@@ -8,27 +8,37 @@
         Get Secret
       </button>
     </form>
-    <div v-if="result">
+    <div v-if="result.data">
       <b>Your text is:</b>
-      <div class="result">{{ result.secretText }}</div>
+      <div class="result">{{ result.data?.secretText }}</div>
     </div>
     <Notification
       @closeMe="closeNotifications()"
-      v-if="errorMsg"
-      :msg="errorMsg"
+      v-if="errorMsg.message && !showInfoNotification"
+      :msg="errorMsg.message"
       :duration="4"
       type="error"
     />
     <Notification
       @closeMe="closeNotifications()"
-      v-if="showInfoNotification"
+      v-if="showInfoNotification && !errorMsg.message"
       type="info"
     >
-      <div v-if="result.expiresAt">
-        <b>This secret will expire on: </b>
-        {{ moment(result.expiresAt).fromNow() }}
+      <div v-if="result.data?.expiresAt">
+        <b>This secret will expire: </b>
+        {{ moment(result.data?.expiresAt).fromNow() }}
       </div>
       <div v-else>This secret has no expiration date</div>
+      <hr />
+      <div v-if="result.data?.remainingViews > 0">
+        <b>This secret is reachable: </b>
+        {{ result.data?.remainingViews }} more
+        {{ result.data?.remainingViews > 1 ? "times" : "time" }}
+      </div>
+      <div v-else-if="result.data?.remainingViews === 0">
+        This was the list time you could check this secret
+      </div>
+      <div v-else>Secret view number is not limited</div>
     </Notification>
   </div>
 </template>
@@ -51,13 +61,22 @@ export default {
     const { getHash, result, errorMsg } = useGetSecret(hash);
 
     const closeNotifications = () => {
-      errorMsg.value = null;
+      errorMsg.message = null;
+      showInfoNotification.value = false;
     };
 
     watch(result, (newValue) => {
-      if (newValue) {
-        console.log(result)
+      if (newValue.data) {
+        console.log(newValue.data);
         showInfoNotification.value = true;
+        errorMsg.message = null;
+      }
+    });
+
+    watch(errorMsg, (newValue) => {
+      if (newValue?.message) {
+        console.log(errorMsg);
+        showInfoNotification.value = false;
       }
     });
 

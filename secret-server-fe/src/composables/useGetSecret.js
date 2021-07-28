@@ -1,18 +1,22 @@
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import axios from 'axios'
 
 const useGetSecret = (hash) => {
-  const result = reactive({})
-  const errorMsg = ref(null)
+  const result = reactive({
+    data: null
+  })
+  const errorMsg = reactive({
+    message: null
+  })
 
   const getHash = async () => {
     try {
       const { data } = await axios.get(
         `${process.env.VUE_APP_BASE_API_URL}/api/secret/${hash.value}`
       )
-      result.value = data
+      result.data = data
     } catch (error) {
-      errorMsg.value = error.response
+      errorMsg.message = error.response
         ? error.response.data.message
         : error.message
     }
