@@ -37,7 +37,6 @@ export default {
     const view = ref("create");
 
     const setViewToGet = () => {
-      console.log("pushed");
       view.value = "get";
     };
 

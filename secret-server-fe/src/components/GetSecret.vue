@@ -75,6 +75,7 @@ export default {
     watch(errorMsg, (newValue) => {
       if (newValue?.message) {
         showInfoNotification.value = false;
+        result.data = null
       }
     });
 
