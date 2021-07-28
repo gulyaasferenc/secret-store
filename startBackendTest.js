@@ -2,10 +2,12 @@ const { exec, spawn } = require('child_process');
 
 try {
     console.log('First kill the docker containiers initialized from docker-compose file in this diectory')
-    exec('docker-compose down', () => {
+    exec('docker-compose down', (error) => {
+        if (error) throw error
         process.chdir('./secret-server-be')
         console.log('Start with initialize db for test with docker-compose...');
-        exec('docker-compose up -d', () => {
+        exec('docker-compose up -d', (error) => {
+            if (error) throw error
             new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve()
@@ -27,6 +29,8 @@ try {
                     exec('docker-compose down')
                 })
 
+            }).catch(error => {
+                throw error
             })
         })
     })
