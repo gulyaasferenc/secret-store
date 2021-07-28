@@ -36,7 +36,7 @@
         {{ result.data?.remainingViews > 1 ? "times" : "time" }}
       </div>
       <div v-else-if="result.data?.remainingViews === 0">
-        This was the list time you could check this secret
+        This was the last time you could check this secret
       </div>
       <div v-else>Secret view number is not limited</div>
     </Notification>
@@ -67,7 +67,6 @@ export default {
 
     watch(result, (newValue) => {
       if (newValue.data) {
-        console.log(newValue.data);
         showInfoNotification.value = true;
         errorMsg.message = null;
       }
@@ -75,7 +74,6 @@ export default {
 
     watch(errorMsg, (newValue) => {
       if (newValue?.message) {
-        console.log(errorMsg);
         showInfoNotification.value = false;
       }
     });
@@ -93,7 +91,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import "../app.scss";
 

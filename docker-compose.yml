@@ -18,9 +18,9 @@ services:
     depends_on:
       - mongodb_container
     network_mode: host
-  # frontend:
-  #   ports:
-  #     - 8080:80
-  #   build: ./secret-server-fe
+  frontend:
+    ports:
+      - 8080:80
+    build: ./secret-server-fe
 volumes:
   mongodb_data_container:
