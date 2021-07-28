@@ -1,9 +1,5 @@
 # Secret server solution(s)
-
-## Description  
-  
-    
-
+## Description 
 ### Branches
 > There are 3 branches in this repo with two solutions in them.
 > The master branch contains the primary solution which works with the ttl index provided by mongodb.  
