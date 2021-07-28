@@ -112,6 +112,13 @@ describe('SECRET SERVER API TEST', () => {
     describe('test ttl', () => {
         it('shoud get the entry properly and then 404', async () => {
             require('../src/cron/cron')({ mongo, logIt })
+
+            await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve()
+                }, 3000)
+            })
+
             const postResult = await request(app).post('/secret').set('Accept', 'application/json').send({
                 "secret": "super secret test",
                 "expireAfterViews": 0,
