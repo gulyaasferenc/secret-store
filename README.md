@@ -11,7 +11,7 @@
 > ```sh
 > docker-compose up --build
 > ```
-> After this process finished you should be able to reach the frontend from your browser on the `localhost:8080` url
+> After this process finished you should be able to reach the frontend from your browser on the `localhost:8080` url  
 > Because it is not a code for production, I also pushed the .env file for the easier start.
 ---
 ### Start the backend tests
